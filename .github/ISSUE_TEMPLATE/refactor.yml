@@ -1,0 +1,24 @@
+name: Refactor Code
+description: Run Agent 1 — guarded structural refactor (auto / review / blocked)
+labels: ["refactor"]
+body:
+  - type: textarea
+    id: source_file
+    attributes:
+      label: Source code
+      description: Paste the code to refactor
+      render: python
+    validations:
+      required: true
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      placeholder: "python"
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Constraints (optional)
+      description: "Any constraints for the refactor, one per line"

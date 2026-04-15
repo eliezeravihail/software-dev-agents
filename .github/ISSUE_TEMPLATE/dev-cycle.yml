@@ -1,0 +1,19 @@
+name: Full Dev Cycle
+description: Run the full pipeline — validate → test → refactor
+labels: ["dev-cycle"]
+body:
+  - type: textarea
+    id: source_file
+    attributes:
+      label: Source code
+      description: Paste the code to process
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements
+      description: "List requirements, one per line: REQ-001: description"
+    validations:
+      required: true

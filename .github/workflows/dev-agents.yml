@@ -1,0 +1,32 @@
+name: Dev Agents
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  run-agent:
+    if: contains(fromJSON('["validate", "test", "refactor", "dev-cycle"]'), github.event.label.name)
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install openai pyyaml
+
+      - name: Run agent
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          AGENT_LABEL: ${{ github.event.label.name }}
+        run: python runner/run.py
