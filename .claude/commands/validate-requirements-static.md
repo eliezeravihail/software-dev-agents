@@ -1,10 +1,10 @@
 ---
-description: "Agent 2 Phase 1 — static + semantic validation with confidence scoring"
+description: "Validator Phase 1 — static + semantic validation with confidence scoring"
 allowed-tools: Read, Write
 ---
 
 1. Read `agents/prompts/prompt_versions.yaml`
-2. Load the Agent 2 version defined there
+2. Load the Validator version defined there
 3. Validate every requirement through all three channels: static + semantic + scoring
 
 ## Required input

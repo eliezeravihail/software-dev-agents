@@ -1,7 +1,7 @@
 """
-agents/agent_1_refactoring.py
-==============================
-Concrete implementation of Agent 1 — Refactoring Expert.
+agents/refactorer.py
+====================
+Concrete implementation of the Refactorer agent.
 Demonstrates the pattern all agents follow:
   1. self.config.model is used for every LLM call
   2. Tools are injected, not instantiated here
@@ -23,9 +23,9 @@ SYSTEM_PROMPT = (
 )
 
 
-class RefactoringAgent(BaseAgent[RefactoringInput, RefactoringOutput]):
+class Refactorer(BaseAgent[RefactoringInput, RefactoringOutput]):
 
-    role = AgentRole.REFACTORING
+    role = AgentRole.REFACTORER
 
     def __init__(
         self,

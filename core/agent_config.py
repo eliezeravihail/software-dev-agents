@@ -13,7 +13,7 @@ class AgentModelConfig(BaseModel):
 
 
 MODEL_REGISTRY: dict[AgentRole, AgentModelConfig] = {
-    AgentRole.REFACTORING: AgentModelConfig(
+    AgentRole.REFACTORER: AgentModelConfig(
         model='claude-sonnet-4-6',
         max_tokens=8192,
         temperature=0.1,
@@ -27,7 +27,7 @@ MODEL_REGISTRY: dict[AgentRole, AgentModelConfig] = {
         prompt_version='v1.2',
         rationale='Deterministic validation with confidence and risk scoring.',
     ),
-    AgentRole.TESTING: AgentModelConfig(
+    AgentRole.TESTER: AgentModelConfig(
         model='claude-sonnet-4-6',
         max_tokens=8192,
         temperature=0.1,

@@ -1,10 +1,10 @@
 ---
-description: "Agent 1 — guarded structural refactor with diff impact and approval mode"
+description: "Refactorer — guarded structural refactor with diff impact and approval mode"
 allowed-tools: Read, Write, Edit
 ---
 
 1. Read `agents/prompts/prompt_versions.yaml`
-2. Load the Agent 1 version defined there
+2. Load the Refactorer version defined there
 
 ## Guardrails
 - `auto`    — confidence >= 0.85 AND risk = low  → apply changes

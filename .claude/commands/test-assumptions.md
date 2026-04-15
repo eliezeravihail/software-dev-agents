@@ -1,10 +1,10 @@
 ---
-description: "Agent 3 validation mode — targeted falsification tests for ASSUMED items"
+description: "Tester validation mode — targeted falsification tests for ASSUMED items"
 allowed-tools: Read, Write
 ---
 
 1. Read `agents/prompts/prompt_versions.yaml`
-2. Load the Agent 3 version defined there
+2. Load the Tester version defined there
 3. Run in `validation` mode
 
 ## Input

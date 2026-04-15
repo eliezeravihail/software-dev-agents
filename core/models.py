@@ -6,9 +6,9 @@ from pydantic import BaseModel, Field
 
 
 class AgentRole(str, Enum):
-    REFACTORING = 'refactoring'
+    REFACTORER = 'refactorer'
     VALIDATOR = 'validator'
-    TESTING = 'testing'
+    TESTER = 'tester'
     BOOK_FINDER = 'book_finder'
     BOOK_ENCODER = 'book_encoder'
 

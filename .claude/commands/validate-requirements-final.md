@@ -1,10 +1,10 @@
 ---
-description: "Agent 2 Phase 2 — merge test evidence into final validation scores"
+description: "Validator Phase 2 — merge test evidence into final validation scores"
 allowed-tools: Read, Write
 ---
 
 1. Read `agents/prompts/prompt_versions.yaml`
-2. Load the Agent 2 version defined there
+2. Load the Validator version defined there
 
 ## Input
 - Previous validation report

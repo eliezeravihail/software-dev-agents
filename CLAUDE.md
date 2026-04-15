@@ -1,24 +1,27 @@
-# Dev Agent System v2
+# software-dev-agents
 
 ## Always-active rules
-- Every agent runs in an isolated subprocess via `claude --print`.
 - Always read `agents/prompts/prompt_versions.yaml` before invoking any agent, then load the exact versioned prompt file listed there.
 - Validation uses three channels: static analysis + semantic validation + confidence scoring.
 - Refactor changes are gated by `refactor_mode` (auto / review / blocked).
 - BOOKS knowledge is loaded by `quality_score` descending; skip `stale=true` entries.
 
-## Primary entrypoints
-- `/project:dev-cycle`              — full adaptive pipeline
-- `/project:books-init`             — encode book queue
-- `/project:ingest-local-sources`   — encode a local folder of PDFs or text files
-- `/project:books-status`           — coverage and quality report
-- `/project:books-audit`            — knowledge hygiene
+## BOOKS knowledge base path
+BOOKS skill files live in the companion repo. Point `BooksLoaderTool(books_root=...)` to:
+`C:\Users\eliezera\Projects\knowledge-library-agents\skills\BOOKS`
+If the path does not exist, run `git clone` of knowledge-library-agents first.
 
 ## Agent map
 | Agent | Role | Model |
 |-------|------|-------|
-| Agent 1 | Refactoring + Guardrails | Sonnet |
-| Agent 2 | Validation + Scoring | Sonnet, temp=0 |
-| Agent 3 | Testing + Coverage | Sonnet |
-| Agent 4 | Book Finder | Haiku |
-| Agent 5 | Book Encoder | Sonnet |
+| refactorer | Refactoring + Guardrails | claude-sonnet-4-6 |
+| validator  | Validation + Scoring      | claude-sonnet-4-6, temp=0 |
+| tester     | Testing + Coverage        | claude-sonnet-4-6 |
+
+## Primary entrypoints
+- `/project:dev-cycle`                   — full adaptive pipeline
+- `/project:validate-requirements-static`— static + semantic validation
+- `/project:test-assumptions`            — targeted falsification tests
+- `/project:validate-requirements-final` — final validation with test evidence
+- `/project:refactor-code-structure`     — guarded refactor
+- `/project:test-generate-suite`         — pytest suite + coverage score

@@ -1,10 +1,10 @@
 ---
-description: "Agent 3 coverage mode — full pytest suite with coverage score"
+description: "Tester coverage mode — full pytest suite with coverage score"
 allowed-tools: Read, Write
 ---
 
 1. Read `agents/prompts/prompt_versions.yaml`
-2. Load the Agent 3 version defined there
+2. Load the Tester version defined there
 3. Run in `coverage` mode
 
 ## Mandatory order
