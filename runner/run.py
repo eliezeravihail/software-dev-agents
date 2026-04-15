@@ -4,11 +4,15 @@ runner/run.py — GitHub Actions entrypoint for software-dev-agents.
 All LLM calls go through GitHub Models (OpenAI-compatible endpoint).
 GITHUB_TOKEN is the only credential needed — no ANTHROPIC_API_KEY required.
 
+Free models used (verify availability at github.com/marketplace/models):
+  gpt-4o-mini                  — OpenAI, free tier, fast
+  Meta-Llama-3.1-70B-Instruct  — Meta, free tier, high quality
+
 Agent routing by issue label:
-  validate   → Agent 2 (Validator)     — claude-3-5-sonnet via GitHub Models
-  test        → Agent 3 (Testing)       — claude-3-5-sonnet via GitHub Models
-  refactor    → Agent 1 (Refactoring)   — claude-3-5-sonnet via GitHub Models
-  dev-cycle   → Agents 2→3→1 pipeline  — claude-3-5-sonnet via GitHub Models
+  validate   → Agent 2 (Validator)    — Meta-Llama-3.1-70B-Instruct
+  test       → Agent 3 (Testing)      — Meta-Llama-3.1-70B-Instruct
+  refactor   → Agent 1 (Refactoring)  — Meta-Llama-3.1-70B-Instruct
+  dev-cycle  → Agents 2→3→1 pipeline — Meta-Llama-3.1-70B-Instruct
 """
 
 from __future__ import annotations
@@ -24,7 +28,7 @@ from openai import OpenAI
 # ── GitHub Models client ────────────────────────────────────────────────────
 
 GITHUB_MODELS_BASE_URL = "https://models.inference.ai.azure.com"
-SONNET_MODEL = "claude-3-5-sonnet"   # Claude Sonnet via GitHub Models (free tier)
+SONNET_MODEL = "Meta-Llama-3.1-70B-Instruct"  # Free tier — high quality
 
 _client = OpenAI(
     base_url=GITHUB_MODELS_BASE_URL,
