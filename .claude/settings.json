@@ -1,0 +1,34 @@
+{
+  "model": "claude-sonnet-4-6",
+  "promptLock": true,
+  "deterministicPromptLoading": true,
+  "guardrails": {
+    "autoRefactorMinConfidence": 0.85,
+    "reviewRefactorMinConfidence": 0.70,
+    "blockHighRisk": true
+  },
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(agents/prompts/**)",
+      "Write(.claude/reports/**)",
+      "Write(tests/**)",
+      "WebSearch(*)",
+      "Bash(claude --print:*)",
+      "Bash(python *)",
+      "Bash(find *)",
+      "Bash(cat *)"
+    ],
+    "deny": [
+      "Write(.claude/commands/**)"
+    ]
+  },
+  "agentModelOverrides": {
+    "validate-requirements-static": "claude-sonnet-4-6",
+    "validate-requirements-final":  "claude-sonnet-4-6",
+    "test-assumptions":             "claude-sonnet-4-6",
+    "test-generate-suite":          "claude-sonnet-4-6",
+    "refactor-code-structure":      "claude-sonnet-4-6",
+    "dev-cycle":                    "claude-sonnet-4-6"
+  }
+}
