@@ -52,17 +52,27 @@ class BooksLoaderTool(BaseTool):
     async def execute(self, input_data: BooksLoaderInput) -> BooksLoaderOutput:
         import aiofiles
         import os
-        path = os.path.join(
-            self.books_root,
-            input_data.category,
-            input_data.book_slug,
-            input_data.topic_file,
-        )
-        if not os.path.exists(path):
+        from pathlib import Path
+
+        # Construct path and validate it stays within books_root (path traversal protection)
+        requested_path = Path(self.books_root) / input_data.category / input_data.book_slug / input_data.topic_file
+        books_root_path = Path(self.books_root).resolve()
+
+        try:
+            resolved_path = requested_path.resolve()
+            if not resolved_path.is_relative_to(books_root_path):
+                return BooksLoaderOutput(content="", found=False)
+        except (ValueError, RuntimeError):
+            # is_relative_to() not available or path validation failed
             return BooksLoaderOutput(content="", found=False)
-        async with aiofiles.open(path, "r") as f:
-            content = await f.read()
-        return BooksLoaderOutput(content=content, found=True)
+
+        # Try to open directly; eliminates redundant os.path.exists() check
+        try:
+            async with aiofiles.open(str(resolved_path), "r") as f:
+                content = await f.read()
+            return BooksLoaderOutput(content=content, found=True)
+        except (FileNotFoundError, IsADirectoryError, PermissionError):
+            return BooksLoaderOutput(content="", found=False)
 
 
 # ─────────────────────────────────────────────

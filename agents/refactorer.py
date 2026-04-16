@@ -56,18 +56,31 @@ class Refactorer(BaseAgent[RefactoringInput, RefactoringOutput]):
         return self._parse_output(input_data, llm_output.content)
 
     async def _load_books(self, input_data: RefactoringInput) -> str:
-        parts = []
-        for ref in input_data.books_refs:
-            result = await self.books.execute(
+        import asyncio
+
+        # Parallelize book loads: create all tasks, then gather results
+        # This avoids N+1 sequencing (e.g., 5 books × 50ms = 250ms → ~50ms with parallelization)
+        tasks = [
+            self.books.execute(
                 BooksLoaderInput(
                     category=ref.category,
                     book_slug=ref.book_slug,
                     topic_file=ref.topic_file,
                 )
             )
-            if result.found:
-                parts.append(f"## {ref.category}/{ref.topic_file}\n{result.content}")
-        return "\n\n".join(parts) if parts else ""
+            for ref in input_data.books_refs
+        ]
+
+        if not tasks:
+            return ""
+
+        results = await asyncio.gather(*tasks, return_exceptions=False)
+        parts = [
+            f"## {ref.category}/{ref.topic_file}\n{result.content}"
+            for ref, result in zip(input_data.books_refs, results)
+            if result.found
+        ]
+        return "\n\n".join(parts)
 
     def _build_prompt(self, input_data: RefactoringInput, books_context: str) -> str:
         lines = [
