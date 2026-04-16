@@ -1,0 +1,51 @@
+{
+  "name": "software-dev-agents",
+  "version": "1.0.0",
+  "description": "Multi-agent pipeline for professional code development. Validate, test, refactor, and improve code quality with adaptive workflows.",
+  "author": {
+    "name": "Eliezer Avihail",
+    "url": "https://github.com/eliezeravihail"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eliezeravihail/software-dev-agents.git"
+  },
+  "skills": [
+    {
+      "name": "experts",
+      "path": ".claude/skills/experts.md",
+      "description": "Expert agents for code review: security review, code simplification, dev cycle, validation, testing, refactoring"
+    }
+  ],
+  "commands": [
+    {
+      "name": "dev-cycle",
+      "path": ".claude/commands/dev-cycle.md"
+    },
+    {
+      "name": "validate-requirements-static",
+      "path": ".claude/commands/validate-requirements-static.md"
+    },
+    {
+      "name": "test-assumptions",
+      "path": ".claude/commands/test-assumptions.md"
+    },
+    {
+      "name": "validate-requirements-final",
+      "path": ".claude/commands/validate-requirements-final.md"
+    },
+    {
+      "name": "refactor-code-structure",
+      "path": ".claude/commands/refactor-code-structure.md"
+    },
+    {
+      "name": "test-generate-suite",
+      "path": ".claude/commands/test-generate-suite.md"
+    }
+  ],
+  "mcpServers": [],
+  "dependencies": {
+    "knowledge-library-agents": "^1.0.0"
+  }
+}
