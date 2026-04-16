@@ -8,7 +8,7 @@
 
 ## BOOKS knowledge base path
 BOOKS skill files live in the companion repo. Point `BooksLoaderTool(books_root=...)` to:
-`C:\Users\eliezera\Projects\knowledge-library-agents\skills\BOOKS`
+`C:\Users\eliezera\AppData\Roaming\.claude\plugins\knowledge-library-agents\skills\BOOKS`
 If the path does not exist, run `git clone` of knowledge-library-agents first.
 
 ## Agent map

@@ -13,7 +13,7 @@ from __future__ import annotations
 from core.models import AgentRole, RefactoringInput, RefactoringOutput
 from core.agent_config import AgentModelConfig
 from agents.base_agent import BaseAgent
-from agents.tool_registry import LLMCallerTool, LLMCallInput, BooksLoaderTool
+from agents.tool_registry import LLMCallerTool, LLMCallInput, BooksLoaderTool, BooksLoaderInput
 
 
 SYSTEM_PROMPT = (
@@ -59,8 +59,7 @@ class Refactorer(BaseAgent[RefactoringInput, RefactoringOutput]):
         parts = []
         for ref in input_data.books_refs:
             result = await self.books.execute(
-                __import__("agents.tool_registry", fromlist=["BooksLoaderInput"])
-                .BooksLoaderInput(
+                BooksLoaderInput(
                     category=ref.category,
                     book_slug=ref.book_slug,
                     topic_file=ref.topic_file,
