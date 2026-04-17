@@ -1,9 +1,9 @@
 locked: true
 
 active:
-  refactorer: v1.2
-  validator:  v1.2
-  tester:     v1.1
+  refactorer: v1.3
+  validator:  v1.3
+  tester:     v2.1
 
 resolution_rule: >
   Before invoking any agent, read this file and load

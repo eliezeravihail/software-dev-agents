@@ -1,73 +1,66 @@
-# Experts Skill
+# Experts Router
 
-בחר מומחה לפקוח על הקוד שלך:
-
-## 🔒 Security Review
-```
-/experts:security-review
-```
-**תיאור:** בדוק Vulnerabilities, path traversal, injection attacks
-**שימוש:** קודם לpush/merge
+You are the entry point for the software-dev-agents pipeline.
+The user invoked `/experts` with a free-text request (available in ARGUMENTS).
 
 ---
 
-## ✏️ Code Simplify
+## Step 1 — Classify with Haiku
+
+Spawn an Agent using the Haiku model to classify the request.
+
+Agent prompt (replace `{{REQUEST}}` with the actual ARGUMENTS value):
+
 ```
-/experts:code-simplify
+Classify this developer request into exactly one word from this list:
+DEV | TESTER | SEC | REFACTOR | VALIDATE | SIMPLIFY | UNKNOWN
+
+Routing rules:
+  DEV      → full pipeline, dev cycle, end-to-end, הכל, מלא, pipeline שלם
+  TESTER   → test, tests, assumptions, coverage, falsification, pytest, בדוק טסטים
+  SEC      → security, אבטחה, vulnerability, vuln, injection, OWASP, path traversal
+  REFACTOR → refactor, רפקטור, structure, restructure, clean up, reorganize
+  VALIDATE → validate, validation, requirements, scoring, דרישות, confidence
+  SIMPLIFY → simplify, פשט, simplification, dead code, quality, duplication, naming
+
+Request: {{REQUEST}}
+
+Reply with one word only — no explanation, no punctuation.
 ```
-**תיאור:** בדוק איכות קוד, reusability, efficiency
-**שימוש:** שיפור קוד
+
+Use `model: haiku` when spawning this agent.
 
 ---
 
-## 🏃 Dev Cycle
-```
-/experts:dev-cycle
-```
-**תיאור:** Pipeline מלא: validate → test → refactor → coverage
-**שימוש:** סיבוב פיתוח שלם
+## Step 2 — Route to Workflow
+
+Based on the single-word result from the Haiku agent:
+
+| Result   | Invoke Skill         |
+|----------|----------------------|
+| DEV      | `dev-cycle`          |
+| TESTER   | `test-assumptions` (if the user mentions assumptions or specific code) OR `test-generate-suite` (if the user wants full coverage) |
+| SEC      | `security-review`    |
+| REFACTOR | `refactor-code-structure` |
+| VALIDATE | `validate-requirements-static` |
+| SIMPLIFY | `simplify`           |
+| UNKNOWN  | → go to Step 3       |
+
+Pass the original ARGUMENTS along to the chosen skill as context.
 
 ---
 
-## ✅ Validate Requirements
-```
-/experts:validate-requirements-static
-```
-**תיאור:** בדוק static + semantic validation עם scoring
-**שימוש:** לוודא requirements
+## Step 3 — Fallback (only if UNKNOWN)
 
----
+Show this routing menu and ask the user to pick:
 
-## 🧪 Test Assumptions
-```
-/experts:test-assumptions
-```
-**תיאור:** יצור targeted falsification tests
-**שימוש:** בדוק assumptions בקוד
+| מה אתה רוצה? | Workflow |
+|---|---|
+| Pipeline מלא end-to-end | `/experts dev-cycle` |
+| בדיקת assumptions / pytest suite | `/experts tester` |
+| סקירת אבטחה | `/experts security-review` |
+| רפקטורינג מבנה | `/experts refactor` |
+| וולידציה של דרישות | `/experts validate` |
+| פישוט וניקוי קוד | `/experts simplify` |
 
----
-
-## 🔨 Refactor Code
-```
-/experts:refactor-code-structure
-```
-**תיאור:** שנה את הקוד (auto/review/blocked modes)
-**שימוש:** שיפור structure
-
----
-
-## 📊 Generate Test Suite
-```
-/experts:test-generate-suite
-```
-**תיאור:** צור pytest suite עם coverage score
-**שימוש:** coverage אוטומטי
-
----
-
-## 📋 Review PR
-```
-/review
-```
-**תיאור:** review PR באופן ידני
-**שימוש:** לפני merge
+Use AskUserQuestion to let the user choose, then invoke the matching skill.
